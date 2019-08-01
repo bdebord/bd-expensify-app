@@ -1,0 +1,60 @@
+import { Action } from "redux";
+import moment from 'moment';
+
+interface FilterAction extends Action {
+    text?: string;
+    endDate?: number,
+    startDate?: any,
+    date?: any
+  }
+  
+  interface filterStateType {
+    text: string;
+    sortBy: string; //date or amount
+    startDate: any;
+    endDate: any;
+  }
+
+const filtersStateDefault: filterStateType = {
+    text: "",
+    sortBy: "date",
+    startDate: moment().startOf('month'),
+    endDate: moment().endOf('month')
+  };
+  
+//Filters reducer
+const filterReducer = (
+    state: filterStateType = filtersStateDefault,
+    action: FilterAction
+  ) => {
+    switch (action.type) {
+      case "SET_TEXT_FILTER":
+        return {
+          ...state,
+          text: action.text
+        };
+      case "SORT_BY_AMOUNT":
+        return {
+          ...state,
+          sortBy: "amount"
+        };
+      case "SORT_BY_DATE":
+        return {
+          ...state,
+          sortBy: "date"
+        };
+      case "SET_END_DATE":
+        return {
+          ...state,
+          endDate: action.date
+        };
+      case "SET_START_DATE":
+        return {
+          ...state,
+          startDate: action.date
+        };
+      default:
+        return state;
+    }
+  };
+export default filterReducer;
